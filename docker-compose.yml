@@ -1,0 +1,48 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: trzworld_nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - trzworld
+
+  mysql:
+    image: mysql:latest
+    container_name: trzworld_mysql
+    restart: always
+    tty: true
+    ports:
+     - "3306:3306"
+    environment:
+      MYSQL_DATABASE: local_trzworld
+      MYSQL_ROOT_PASSWORD: trzworld
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - trzworld
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trzworld_php
+    restart: always
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "9000:9000"
+    networks:
+      - trzworld
+
+networks:
+  trzworld:
+    driver: bridge
