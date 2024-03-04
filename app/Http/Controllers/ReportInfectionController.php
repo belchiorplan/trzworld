@@ -18,27 +18,40 @@ class ReportInfectionController extends BaseController
      */
     public function reportInfection(StoreInfectedReportedRequest $request): JsonResponse
     {
-        // Save new report
-        $infectedReported = new InfectedReported();
-        $infectedReported->infected_survivor_id  = $request->input('infected_survivor_id');
-        $infectedReported->reporting_survivor_id = $request->input('reporting_survivor_id');
-        $infectedReported->save();
+        try {
+            DB::beginTransaction();
 
-        $countedInfectedReports = DB::table('infected_reporteds')
-                                    ->where('infected_survivor_id', $request->input('infected_survivor_id'))
-                                    ->count();
+            // Save new report
+            $infectedReported = new InfectedReported();
+            $infectedReported->infected_survivor_id  = $request->input('infected_survivor_id');
+            $infectedReported->reporting_survivor_id = $request->input('reporting_survivor_id');
+            $infectedReported->save();
 
-        // Check if the survivor is now infected
-        if ($countedInfectedReports >= 5) {
-            $survivor = Survivor::find($request->input('infected_survivor_id'));
+            $countedInfectedReports = InfectedReported::where('infected_survivor_id', $request->input('infected_survivor_id'))
+                ->count();
 
-            if (!$survivor->is_infected) {
-                $survivor->update(['is_infected' => true]);
+            // Check if the survivor is now infected
+            if ($countedInfectedReports >= 5) {
+                $survivor = Survivor::find($request->input('infected_survivor_id'));
+
+                if (!$survivor->is_infected) {
+                    $updated = $survivor->update(['is_infected' => true]);
+
+                    if ($updated) {
+                        DB::commit();
+
+                        $message = 'Hi, the survivor has been marked infected.';
+
+                        return $this->sendResponse($message);
+                    }
+                }
             }
+        } catch (\Exception $e) {
+            DB::rollBack();
         }
 
-        $message = 'Hi, the survivor has been marked infected.';
+        $message = 'Hi, an error occurred while marking the user as infected';
 
-        return $this->sendResponse($message);
+        return $this->sendError($message);
     }
 }
