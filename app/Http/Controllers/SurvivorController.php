@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSurvivorRequest;
 use App\Http\Requests\UpdateSurvivorRequest;
 use App\Models\InfectedReported;
+use App\Models\InventoryItem;
 use App\Models\Survivor;
 use App\Models\SurvivorInventory;
 use Illuminate\Database\Eloquent\Collection;
@@ -38,13 +39,13 @@ class SurvivorController extends BaseController
             $survivor->longitude = $request->input('longitude');
 
             if ($survivor->save()) {
-
                 $inventory_items = $request->input('inventory');
 
                 foreach ($inventory_items as $item) {
                     SurvivorInventory::create([
                         'survivor_id' => $survivor->id,
-                        'item_id'     => $item,
+                        'item_id'     => $item['item'],
+                        'quantity'    => $item['quantity'],
                     ]);
                 }
 

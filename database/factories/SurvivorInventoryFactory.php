@@ -26,6 +26,7 @@ class SurvivorInventoryFactory extends Factory
         return [
             'survivor_id' => $this->faker->randomElement($survivorIds),
             'item_id'     => $this->faker->randomElement($itemIds),
+            'quantity'    => $this->faker->numberBetween(1, 10),
         ];
     }
 }
