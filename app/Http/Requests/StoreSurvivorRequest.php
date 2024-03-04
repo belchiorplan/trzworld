@@ -22,11 +22,13 @@ class StoreSurvivorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'      => 'required|min:3',
-            'age'       => 'required|integer',
-            'gender_id' => 'required|integer',
-            'latitude'  => 'required|numeric',
-            'longitude' => 'required|numeric',
+            'name'        => 'required|min:3',
+            'age'         => 'required|integer',
+            'gender_id'   => 'required|integer|exists:genders,id',
+            'latitude'    => 'required|numeric',
+            'longitude'   => 'required|numeric',
+            'inventory'   => 'required|array',
+            'inventory.*' => 'required|integer|exists:inventory_items,id',
         ];
     }
 }

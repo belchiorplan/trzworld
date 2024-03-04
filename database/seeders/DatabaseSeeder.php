@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Survivor;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,8 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            InventoryItemSeeder::class,
             GenderSeeder::class,
             SurvivorSeeder::class,
+            SurvivorInventorySeeder::class,
         ]);
     }
 }
