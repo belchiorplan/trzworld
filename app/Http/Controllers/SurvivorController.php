@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSurvivorRequest;
 use App\Http\Requests\UpdateSurvivorRequest;
+use App\Models\InfectedReported;
 use App\Models\Survivor;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class SurvivorController extends BaseController
 {
@@ -23,19 +25,29 @@ class SurvivorController extends BaseController
      */
     public function store(StoreSurvivorRequest $request): JsonResponse
     {
-        $survivor = new Survivor();
+        try {
+            DB::beginTransaction();
 
-        $survivor->name      = $request->input('name');
-        $survivor->age       = $request->input('age');
-        $survivor->gender_id = $request->input('gender_id');
-        $survivor->latitude  = $request->input('latitude');
-        $survivor->longitude = $request->input('longitude');
+            $survivor = new Survivor();
 
-        $survivor->save();
+            $survivor->name      = $request->input('name');
+            $survivor->age       = $request->input('age');
+            $survivor->gender_id = $request->input('gender_id');
+            $survivor->latitude  = $request->input('latitude');
+            $survivor->longitude = $request->input('longitude');
 
-        $message = 'Hello ' . $survivor->name . ', you have been registered. Your code is ' . $survivor->id;
+            if ($survivor->save()) {
+                DB::commit();
+                $message = 'Hello ' . $survivor->name . ', you have been registered. Your code is ' . $survivor->id;
+                return $this->sendResponse($message);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+        }
 
-        return $this->sendResponse($message);
+        $message = 'Hello, an error occurred when trying to register the survivor.';
+
+        return $this->sendError($message);
     }
 
     /**
@@ -51,31 +63,26 @@ class SurvivorController extends BaseController
      */
     public function update(UpdateSurvivorRequest $request, Survivor $survivor): JsonResponse
     {
-        $survivor->update([
-            'name'          => $request->input('name'),
-            'age'           => $request->input('age'),
-            'gender_id'     => $request->input('gender_id'),
-            'last_location' => $request->input('last_location'),
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $message = 'Hello ' . $survivor->name . ', you have been updated.';
+            $update = $survivor->update([
+                'latitude'  => $request->input('latitude'),
+                'longitude' => $request->input('longitude'),
+            ]);
 
-        return $this->sendResponse($message);
-    }
-
-    /**
-     * Remove the specified survivor from the database.
-     */
-    public function destroy(Survivor $survivor): JsonResponse
-    {
-        if ($survivor->delete()) {
-            $message = 'Hello, the survivor ' . $survivor->name . ' has been deleted.';
-            return $this->sendResponse($message);
+            if ($update) {
+                DB::commit();
+                $message = 'Hello ' . $survivor->name . ', you have been updated your location.';
+                return $this->sendResponse($message);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
         }
 
-        $message = 'Hello, the survivor ' . $survivor->name . ' cannot be deleted.';
+        $message = 'Hello, an error occurred when trying to update location the survivor.';
 
-        return $this->sendError($message, 406);
+        return $this->sendError($message);
     }
 
 }

@@ -18,11 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('survivor')->group(function () {
 
     Route::get('/all', [SurvivorController::class, 'index']);
-    Route::get('/show/{id}', [SurvivorController::class, 'show']);
+    Route::get('/show/{survivor}', [SurvivorController::class, 'show']);
 
     Route::post('/store', [SurvivorController::class, 'store']);
-    Route::post('/update/{id}', [SurvivorController::class, 'update']);
-    Route::post('/destroy/{id}', [SurvivorController::class, 'destroy']);
+    Route::post('/update/{survivor}', [SurvivorController::class, 'update']);
 });
 
 Route::prefix('report-infection')->group(function () {

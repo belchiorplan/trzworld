@@ -9,7 +9,7 @@ class Survivor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'age', 'gender_id', 'last_location', 'is_infected'];
+    protected $fillable = ['name', 'age', 'gender_id', 'latitude', 'longitude', 'is_infected'];
 
     protected $hidden = ['id', 'created_at', 'updated_at', 'deleted_at'];
 }
