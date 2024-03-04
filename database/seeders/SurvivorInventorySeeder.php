@@ -12,6 +12,6 @@ class SurvivorInventorySeeder extends Seeder
      */
     public function run(): void
     {
-        SurvivorInventory::factory(30)->create();
+        SurvivorInventory::factory(783)->create();
     }
 }

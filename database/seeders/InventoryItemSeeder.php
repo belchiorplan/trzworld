@@ -12,9 +12,21 @@ class InventoryItemSeeder extends Seeder
      */
     public function run(): void
     {
-        InventoryItem::create(['name' => 'Água de Fiji']);
-        InventoryItem::create(['name' => 'sopa campbell']);
-        InventoryItem::create(['name' => 'bolsa de primeiros socorros']);
-        InventoryItem::create(['name' => 'AK47']);
+        InventoryItem::create([
+            'name' => 'Agua de Fiji',
+            'points' => 14
+        ]);
+        InventoryItem::create([
+            'name' => 'sopa campbell',
+            'points' => 12
+        ]);
+        InventoryItem::create([
+            'name' => 'bolsa de primeiros socorros',
+            'points' => 10
+        ]);
+        InventoryItem::create([
+            'name' => 'AK47',
+            'points' => 8
+        ]);
     }
 }
