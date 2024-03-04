@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ReportInfectionController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SurvivorController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +28,12 @@ Route::prefix('survivor')->group(function () {
 Route::prefix('report-infection')->group(function () {
 
     Route::post('/report', [ReportInfectionController::class, 'reportInfection']);
+});
+
+Route::prefix('reports')->group(function () {
+
+    Route::get('/percentage-infected', [ReportsController::class, 'percentageInfected']);
+    Route::get('/percentage-not-infected', [ReportsController::class, 'percentageNotInfected']);
+    Route::get('/average-items', [ReportsController::class, 'calculateAverageItemsQuantity']);
+    Route::get('/total-poinsts-lost', [ReportsController::class, 'calculateTotalPointsLost']);
 });
