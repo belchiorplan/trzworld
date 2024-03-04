@@ -28,24 +28,23 @@ class ReportInfectionController extends BaseController
             $infectedReported->save();
 
             $countedInfectedReports = InfectedReported::where('infected_survivor_id', $request->input('infected_survivor_id'))
-                ->count();
+                                                        ->count();
 
             // Check if the survivor is now infected
             if ($countedInfectedReports >= 5) {
                 $survivor = Survivor::find($request->input('infected_survivor_id'));
 
                 if (!$survivor->is_infected) {
-                    $updated = $survivor->update(['is_infected' => true]);
-
-                    if ($updated) {
-                        DB::commit();
-
-                        $message = 'Hi, the survivor has been marked infected.';
-
-                        return $this->sendResponse($message);
-                    }
+                    $survivor->update(['is_infected' => true]);
                 }
             }
+
+            DB::commit();
+
+            $message = 'Hi, the survivor has been marked infected.';
+
+            return $this->sendResponse($message);
+
         } catch (\Exception $e) {
             DB::rollBack();
         }
