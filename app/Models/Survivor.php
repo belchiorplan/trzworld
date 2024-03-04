@@ -11,5 +11,5 @@ class Survivor extends Model
 
     protected $fillable = ['name', 'age', 'gender_id', 'latitude', 'longitude', 'is_infected'];
 
-    protected $hidden = ['id', 'created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['id', 'created_at', 'updated_at'];
 }
