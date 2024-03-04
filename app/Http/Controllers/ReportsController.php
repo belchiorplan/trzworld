@@ -70,7 +70,7 @@ class ReportsController extends BaseController
 
         // Calculate average quantity for each survivor
         foreach ($items as $item) {
-            $totalItems = SurvivorInventory::where('item_id', $item->id)->count();
+            $totalItems = SurvivorInventory::where('item_id', $item->id)->pluck('quantity')->sum();
             $averages[$item->name] = number_format($totalItems / $survivors, 0);
         }
 
@@ -85,6 +85,11 @@ class ReportsController extends BaseController
         // Get IDs of infected survivors
         $infectedSurvivorsIds = Survivor::where('is_infected', true)->pluck('id');
 
+        if ($infectedSurvivorsIds->count() < 1) {
+            $message = "We didn't lose any points.";
+            return $this->sendResponse($message);
+        }
+
         // Get items owned by infected survivors
         $survivorItems = SurvivorInventory::whereIn('survivor_id', $infectedSurvivorsIds)->get();
 
@@ -93,7 +98,7 @@ class ReportsController extends BaseController
 
         // Calculate total points
         $totalPoints = $survivorItems->map(function ($item) use ($items) {
-            $point = $items->find($item->item_id)->points;
+            $point = $items->find($item->item_id)->points * $item->quantity;
             return $point;
         })->sum();
 
