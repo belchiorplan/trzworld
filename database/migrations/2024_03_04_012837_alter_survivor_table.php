@@ -23,6 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('survivors', function (Blueprint $table) {
+            $table->dropForeign(['gender_id']);
+
+            $table->tinyInteger('gender_id')->change();
+        });
     }
 };
