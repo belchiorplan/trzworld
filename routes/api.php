@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\ReportInfectionController;
+use App\Http\Controllers\SurvivorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('survivor')->group(function () {
+
+    Route::get('/all', [SurvivorController::class, 'index']);
+    Route::get('/show/{id}', [SurvivorController::class, 'show']);
+
+    Route::post('/store', [SurvivorController::class, 'store']);
+    Route::post('/update/{id}', [SurvivorController::class, 'update']);
+    Route::post('/destroy/{id}', [SurvivorController::class, 'destroy']);
+});
+
+Route::prefix('report-infection')->group(function () {
+
+    Route::post('/report', [ReportInfectionController::class, 'reportInfection']);
 });
