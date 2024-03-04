@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InventoryItemController;
 use App\Http\Controllers\ReportInfectionController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SurvivorController;
@@ -23,6 +24,11 @@ Route::prefix('survivor')->group(function () {
 
     Route::post('/store', [SurvivorController::class, 'store']);
     Route::post('/update/{survivor}', [SurvivorController::class, 'update']);
+});
+
+Route::prefix('items')->group(function () {
+
+    Route::get('/all', [InventoryItemController::class, 'index']);
 });
 
 Route::prefix('report-infection')->group(function () {

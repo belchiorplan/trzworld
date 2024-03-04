@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class InventoryItem extends Model
 {
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'points'];
 
-    protected $hidden = ['id', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 }
