@@ -81,6 +81,16 @@ class ReportInfectionController extends BaseController
         try {
             DB::beginTransaction();
 
+            $survivorInfected = Survivor::find($request->input('reporting_survivor_id'));
+
+            if ($survivorInfected->is_infected) {
+                DB::rollBack();
+
+                $message = 'Infected survivors cannot report others infected.';
+
+                return $this->sendError($message);
+            }
+
             // Save new report
             InfectedReported::create([
                 'infected_survivor_id'  => $request->input('infected_survivor_id'),
