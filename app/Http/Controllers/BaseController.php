@@ -9,8 +9,12 @@ class BaseController extends Controller
 {
     /**
      * Return a json response of successful
+     *
+     * @param  string  $message
+     * @param  int  $code
+     * @return JsonResponse
      */
-    protected function sendResponse($message, $code = Response::HTTP_OK): JsonResponse
+    protected function sendResponse(string $message, int $code = Response::HTTP_OK): JsonResponse
     {
         $response = [
             'success' => true,
@@ -26,8 +30,12 @@ class BaseController extends Controller
 
     /**
      * Return a json response of error
+     *
+     * @param  string  $message
+     * @param  int  $code
+     * @return JsonResponse
      */
-    protected function sendError($message, $code = Response::HTTP_BAD_REQUEST): JsonResponse
+    protected function sendError(string $message, int $code = Response::HTTP_BAD_REQUEST): JsonResponse
     {
         $response = [
             'success' => false,

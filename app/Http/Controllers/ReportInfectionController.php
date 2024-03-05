@@ -15,6 +15,10 @@ class ReportInfectionController extends BaseController
 {
     /**
      * Report a survivor infected
+     *
+     * @param  StoreInfectedReportedRequest $request
+     * @return JsonResponse
+     * @throws  \Exception
      */
     public function reportInfection(StoreInfectedReportedRequest $request): JsonResponse
     {
@@ -22,10 +26,10 @@ class ReportInfectionController extends BaseController
             DB::beginTransaction();
 
             // Save new report
-            $infectedReported = new InfectedReported();
-            $infectedReported->infected_survivor_id  = $request->input('infected_survivor_id');
-            $infectedReported->reporting_survivor_id = $request->input('reporting_survivor_id');
-            $infectedReported->save();
+            InfectedReported::create([
+                'infected_survivor_id' => $request->input('infected_survivor_id'),
+                'reporting_survivor_id' => $request->input('reporting_survivor_id')
+            ]);
 
             $countedInfectedReports = InfectedReported::where('infected_survivor_id', $request->input('infected_survivor_id'))
                                                         ->count();

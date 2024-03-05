@@ -32,7 +32,7 @@ class ExchangeController extends BaseController
                                     ->first();
 
             if ($isInfected) {
-                $message = "Do you cannot trade items with survived infected";
+                $message = "Do you cannot trade items with survived infected.";
 
                 return $this->sendError($message);
             }
@@ -45,7 +45,7 @@ class ExchangeController extends BaseController
 
             // Check if total points are equal for both survivors
             if ($totalPointsSurvivor1 !== $totalPointsSurvivor2) {
-                $message = "Total points of items to be traded must be equal for both survivors";
+                $message = "Total points of items to be traded must be equal for both survivors.";
 
                 return $this->sendError($message);
             }
@@ -79,7 +79,7 @@ class ExchangeController extends BaseController
 
             DB::commit();
 
-            $message = "Trade completed successfully";
+            $message = "Trade completed successfully.";
 
             return $this->sendResponse($message);
         } catch (\Exception $e) {
@@ -205,7 +205,7 @@ class ExchangeController extends BaseController
 
         $sumTotalInventary = 0;
         foreach ($inventarySurvivor as $item) {
-            if ($item->item_id != 4) {
+            if ($item->item_id != self::AK47_ID) {
                 $sumTotalInventary += $item['quantity'];
             }
         }

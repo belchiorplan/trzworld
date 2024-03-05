@@ -16,6 +16,8 @@ class SurvivorController extends BaseController
 {
     /**
      * Display a listing of the survivors.
+     *
+     * @return Collection
      */
     public function index(): Collection
     {
@@ -24,21 +26,24 @@ class SurvivorController extends BaseController
 
     /**
      * Store a newly created survivor in the database.
+     *
+     * @param  StoreSurvivorRequest $request
+     * @return JsonResponse
      */
     public function store(StoreSurvivorRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
 
-            $survivor = new Survivor();
+            $survivor = Survivor::create([
+                'name' => $request->input('name'),
+                'age' => $request->input('age'),
+                'gender_id' => $request->input('gender_id'),
+                'latitude' => $request->input('latitude'),
+                'longitude' => $request->input('longitude'),
+            ]);
 
-            $survivor->name      = $request->input('name');
-            $survivor->age       = $request->input('age');
-            $survivor->gender_id = $request->input('gender_id');
-            $survivor->latitude  = $request->input('latitude');
-            $survivor->longitude = $request->input('longitude');
-
-            if ($survivor->save()) {
+            if ($survivor) {
                 $inventory_items = $request->input('inventory');
 
                 foreach ($inventory_items as $item) {
@@ -50,20 +55,25 @@ class SurvivorController extends BaseController
                 }
 
                 DB::commit();
-                $message = 'Hello ' . $survivor->name . ', you have been registered. Your code is ' . $survivor->id;
+
+                $message = "Hello {$survivor->name}, you have been registered. Your code is {$survivor->id}.";
+
                 return $this->sendResponse($message);
             }
         } catch (\Exception $e) {
             DB::rollBack();
         }
 
-        $message = 'Hello, an error occurred when trying to register the survivor.';
+        $message = "Hello, an error occurred when trying to register the survivor.";
 
         return $this->sendError($message);
     }
 
     /**
      * Display the specified survivor.
+     *
+     * @param  Survivor $survivor
+     * @return Survivor
      */
     public function show(Survivor $survivor): Survivor
     {
@@ -72,6 +82,10 @@ class SurvivorController extends BaseController
 
     /**
      * Update the specified survivor in the database.
+     *
+     * @param  UpdateSurvivorRequest $request
+     * @param  Survivor $survivor
+     * @return JsonResponse
      */
     public function update(UpdateSurvivorRequest $request, Survivor $survivor): JsonResponse
     {
@@ -85,14 +99,14 @@ class SurvivorController extends BaseController
 
             if ($update) {
                 DB::commit();
-                $message = 'Hello ' . $survivor->name . ', you have been updated your location.';
+                $message = "Hello {$survivor->name}, you have been updated your location.";
                 return $this->sendResponse($message);
             }
         } catch (\Exception $e) {
             DB::rollBack();
         }
 
-        $message = 'Hello, an error occurred when trying to update location the survivor.';
+        $message = "Hello, an error occurred when trying to update location the survivor.";
 
         return $this->sendError($message);
     }

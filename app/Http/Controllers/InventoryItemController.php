@@ -16,6 +16,8 @@ class InventoryItemController extends BaseController
 {
     /**
      * Display a listing of the items.
+     *
+     * @return Collection
      */
     public function index(): Collection
     {

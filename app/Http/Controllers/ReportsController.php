@@ -16,7 +16,9 @@ use Psy\Util\Json;
 class ReportsController extends BaseController
 {
     /**
-     * Display the percentage of infected
+     * Display the percentage of not infected
+     *
+     * @return JsonResponse
      */
     public function percentageInfected(): JsonResponse
     {
@@ -25,6 +27,8 @@ class ReportsController extends BaseController
 
     /**
      * Display the percentage of not infected
+     *
+     * @return JsonResponse
      */
     public function percentageNotInfected(): JsonResponse
     {
@@ -33,6 +37,9 @@ class ReportsController extends BaseController
 
     /**
      * Calculate percentage of survivors are and not infected
+     *
+     * @param  bool $infected
+     * @return JsonResponse
      */
     public function calculatePercentage(bool $infected): JsonResponse
     {
@@ -44,7 +51,7 @@ class ReportsController extends BaseController
             $percentage = ($filter / $count) * 100;
             $status = $infected ? "infected" : "not infected";
 
-            $message = "The percentage of {$status} survivors is: " . $percentage . "%";
+            $message = "The percentage of {$status} survivors is: {$percentage}%";
 
             return $this->sendResponse($message);
         }
@@ -57,6 +64,8 @@ class ReportsController extends BaseController
 
     /**
      * Calculate average of items per survivor
+     *
+     * @return array
      */
     public function calculateAverageItemsQuantity(): array
     {
@@ -79,6 +88,8 @@ class ReportsController extends BaseController
 
     /**
      * Calculate total points lost
+     *
+     * @return JsonResponse
      */
     public function calculateTotalPointsLost(): JsonResponse
     {
@@ -102,7 +113,7 @@ class ReportsController extends BaseController
             return $point;
         })->sum();
 
-        $message = "The quantity points lost is: " . $totalPoints . " points";
+        $message = "The quantity points lost is: {$totalPoints} points";
 
         return $this->sendResponse($message);
     }
