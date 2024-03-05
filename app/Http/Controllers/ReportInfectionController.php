@@ -11,9 +11,64 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @OA\Tag(
+ *     name="Report Infection"
+ * )
+ */
 class ReportInfectionController extends BaseController
 {
     /**
+     * @OA\Post(
+     *     path="/api/report-infections/report",
+     *     summary="Report a survivor as infected",
+     *     tags={"Report Infection"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"infected_survivor_id", "reporting_survivor_id"},
+     *                 @OA\Property(
+     *                     property="infected_survivor_id",
+     *                     type="integer",
+     *                     description="ID of the survivor reported as infected"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="reporting_survivor_id",
+     *                     type="integer",
+     *                     description="ID of the survivor reporting the infection"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Message indicating successful report of infection"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating internal server error"
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * Report a survivor infected
      *
      * @param  StoreInfectedReportedRequest $request
@@ -27,7 +82,7 @@ class ReportInfectionController extends BaseController
 
             // Save new report
             InfectedReported::create([
-                'infected_survivor_id' => $request->input('infected_survivor_id'),
+                'infected_survivor_id'  => $request->input('infected_survivor_id'),
                 'reporting_survivor_id' => $request->input('reporting_survivor_id')
             ]);
 

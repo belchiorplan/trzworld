@@ -13,9 +13,45 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Psy\Util\Json;
 
+/**
+ * @OA\Tag(
+ *     name="Reports"
+ * )
+ */
 class ReportsController extends BaseController
 {
     /**
+     * @OA\Get(
+     *     path="/api/reports/percentage-infected",
+     *     summary="Display the percentage of not infected survivors",
+     *     tags={"Reports"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="percentage",
+     *                 type="number",
+     *                 format="double",
+     *                 description="Percentage of not infected survivors"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating internal server error"
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * Display the percentage of not infected
      *
      * @return JsonResponse
@@ -26,6 +62,37 @@ class ReportsController extends BaseController
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/reports/percentage-not-infected",
+     *     summary="Display the percentage of not infected survivors",
+     *     tags={"Reports"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="percentage",
+     *                 type="number",
+     *                 format="double",
+     *                 description="Percentage of not infected survivors"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating internal server error"
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * Display the percentage of not infected
      *
      * @return JsonResponse
@@ -63,6 +130,41 @@ class ReportsController extends BaseController
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/reports/average-items",
+     *     summary="Calculate average quantity of items per survivor",
+     *     tags={"Reports"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="average_items",
+     *                 type="object",
+     *                 description="Average quantity of items per survivor",
+     *                 @OA\AdditionalProperties(
+     *                     type="number",
+     *                     format="double",
+     *                     description="Average quantity of the item per survivor"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating internal server error"
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * Calculate average of items per survivor
      *
      * @return array
@@ -87,6 +189,48 @@ class ReportsController extends BaseController
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/reports/total-points-lost",
+     *     summary="Calculate total points lost due to infected survivors",
+     *     tags={"Reports"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Message indicating total points lost"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No infected survivors found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating no infected survivors found"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating internal server error"
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * Calculate total points lost
      *
      * @return JsonResponse

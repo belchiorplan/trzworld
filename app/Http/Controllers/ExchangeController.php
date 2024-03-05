@@ -10,11 +10,116 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\select;
 
+/**
+ * @OA\Tag(
+ *     name="Trade Items"
+ * )
+ */
 class ExchangeController extends BaseController
 {
     const AK47_ID = 4;
 
     /**
+     * @OA\Post(
+     *     path="/api/exchanges/trade",
+     *     summary="Perform a trade between survivors",
+     *     tags={"Trade Items"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"survivor1_id", "items_to_trade_s1", "survivor2_id", "items_to_trade_s2"},
+     *                 @OA\Property(
+     *                     property="survivor1_id",
+     *                     type="integer",
+     *                     description="ID of the first survivor involved in the trade"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="items_to_trade_s1",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={"item", "quantity"},
+     *                         @OA\Property(
+     *                             property="item",
+     *                             type="integer",
+     *                             description="ID of the item to be traded by survivor1"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="quantity",
+     *                             type="integer",
+     *                             description="Quantity of the item to be traded by survivor1"
+     *                         )
+     *                     ),
+     *                     description="Items to be traded by survivor1"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="survivor2_id",
+     *                     type="integer",
+     *                     description="ID of the second survivor involved in the trade"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="items_to_trade_s2",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={"item", "quantity"},
+     *                         @OA\Property(
+     *                             property="item",
+     *                             type="integer",
+     *                             description="ID of the item to be traded by survivor2"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="quantity",
+     *                             type="integer",
+     *                             description="Quantity of the item to be traded by survivor2"
+     *                         )
+     *                     ),
+     *                     description="Items to be traded by survivor2"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Message indicating successful trade"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request, invalid parameters provided",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating bad request"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating internal server error"
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * Perform the trade between survivors.
      *
      * @param  \App\Http\Requests\StoreExchangeRequest $request

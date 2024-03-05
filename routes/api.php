@@ -42,7 +42,7 @@ Route::prefix('reports')->group(function () {
     Route::get('/percentage-infected', [ReportsController::class, 'percentageInfected']);
     Route::get('/percentage-not-infected', [ReportsController::class, 'percentageNotInfected']);
     Route::get('/average-items', [ReportsController::class, 'calculateAverageItemsQuantity']);
-    Route::get('/total-poinsts-lost', [ReportsController::class, 'calculateTotalPointsLost']);
+    Route::get('/total-points-lost', [ReportsController::class, 'calculateTotalPointsLost']);
 });
 
 Route::prefix('exchanges')->group(function () {

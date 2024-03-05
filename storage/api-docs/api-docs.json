@@ -1,0 +1,766 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TRZWorld with Swagger",
+        "description": "L5 Swagger OpenApi",
+        "contact": {
+            "email": "carlosbelchiorsilva@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/exchanges/trade": {
+            "post": {
+                "tags": [
+                    "Trade Items"
+                ],
+                "summary": "Perform a trade between survivors",
+                "operationId": "e03a1d1157d27d2b9d4cb0c89b31bdd6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "survivor1_id",
+                                    "items_to_trade_s1",
+                                    "survivor2_id",
+                                    "items_to_trade_s2"
+                                ],
+                                "properties": {
+                                    "survivor1_id": {
+                                        "description": "ID of the first survivor involved in the trade",
+                                        "type": "integer"
+                                    },
+                                    "items_to_trade_s1": {
+                                        "description": "Items to be traded by survivor1",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "item",
+                                                "quantity"
+                                            ],
+                                            "properties": {
+                                                "item": {
+                                                    "description": "ID of the item to be traded by survivor1",
+                                                    "type": "integer"
+                                                },
+                                                "quantity": {
+                                                    "description": "Quantity of the item to be traded by survivor1",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "survivor2_id": {
+                                        "description": "ID of the second survivor involved in the trade",
+                                        "type": "integer"
+                                    },
+                                    "items_to_trade_s2": {
+                                        "description": "Items to be traded by survivor2",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "item",
+                                                "quantity"
+                                            ],
+                                            "properties": {
+                                                "item": {
+                                                    "description": "ID of the item to be traded by survivor2",
+                                                    "type": "integer"
+                                                },
+                                                "quantity": {
+                                                    "description": "Quantity of the item to be traded by survivor2",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message indicating successful trade",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, invalid parameters provided",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating bad request",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/report-infections/report": {
+            "post": {
+                "tags": [
+                    "Report Infection"
+                ],
+                "summary": "Report a survivor as infected",
+                "operationId": "a0d34e6f1f4e623c7694ef40ee5b00f0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "infected_survivor_id",
+                                    "reporting_survivor_id"
+                                ],
+                                "properties": {
+                                    "infected_survivor_id": {
+                                        "description": "ID of the survivor reported as infected",
+                                        "type": "integer"
+                                    },
+                                    "reporting_survivor_id": {
+                                        "description": "ID of the survivor reporting the infection",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message indicating successful report of infection",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reports/percentage-infected": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Display the percentage of not infected survivors",
+                "operationId": "8ea2f45f3b799007c1ad273562c6a2d0",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "percentage": {
+                                            "description": "Percentage of not infected survivors",
+                                            "type": "number",
+                                            "format": "double"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reports/percentage-not-infected": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Display the percentage of not infected survivors",
+                "operationId": "0ae27d9d714c9a659a15b647619ed162",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "percentage": {
+                                            "description": "Percentage of not infected survivors",
+                                            "type": "number",
+                                            "format": "double"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reports/average-items": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Calculate average quantity of items per survivor",
+                "operationId": "7421770794268946512d86f149d5b511",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "average_items": {
+                                            "description": "Average quantity of items per survivor",
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "description": "Average quantity of the item per survivor",
+                                                "type": "number",
+                                                "format": "double"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reports/total-points-lost": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Calculate total points lost due to infected survivors",
+                "operationId": "8ac186a775921a55dda8fe644fe5e81a",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message indicating total points lost",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No infected survivors found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating no infected survivors found",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/survivors/all": {
+            "get": {
+                "tags": [
+                    "Survivors"
+                ],
+                "summary": "List survivors",
+                "description": "List all registered survivors",
+                "operationId": "710b2aeb9f7bee505b6035f396d19488",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/survivors/store": {
+            "post": {
+                "tags": [
+                    "Survivors"
+                ],
+                "summary": "Create a new survivor",
+                "operationId": "ecd9bb97de2fe457ef7feb7ce3273fca",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "age",
+                                    "gender_id",
+                                    "latitude",
+                                    "longitude",
+                                    "inventory"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the survivor",
+                                        "type": "string"
+                                    },
+                                    "age": {
+                                        "description": "Age of the survivor",
+                                        "type": "integer"
+                                    },
+                                    "gender_id": {
+                                        "description": "Gender ID of the survivor",
+                                        "type": "integer"
+                                    },
+                                    "latitude": {
+                                        "description": "Latitude of the survivor's location",
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "longitude": {
+                                        "description": "Longitude of the survivor's location",
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "inventory": {
+                                        "description": "List of items in the survivor's inventory",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "item",
+                                                "quantity"
+                                            ],
+                                            "properties": {
+                                                "item": {
+                                                    "description": "ID of the item in the survivor's inventory",
+                                                    "type": "integer"
+                                                },
+                                                "quantity": {
+                                                    "description": "Quantity of the item in the survivor's inventory",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Details of the created survivor",
+                                    "properties": {
+                                        "id": {
+                                            "description": "ID of the created survivor",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "Name of the survivor",
+                                            "type": "string"
+                                        },
+                                        "age": {
+                                            "description": "Age of the survivor",
+                                            "type": "integer"
+                                        },
+                                        "gender_id": {
+                                            "description": "Gender ID of the survivor",
+                                            "type": "integer"
+                                        },
+                                        "latitude": {
+                                            "description": "Latitude of the survivor's location",
+                                            "type": "number",
+                                            "format": "double"
+                                        },
+                                        "longitude": {
+                                            "description": "Longitude of the survivor's location",
+                                            "type": "number",
+                                            "format": "double"
+                                        },
+                                        "inventory": {
+                                            "description": "List of items in the survivor's inventory",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "item_id": {
+                                                        "description": "ID of the item in the survivor's inventory",
+                                                        "type": "integer"
+                                                    },
+                                                    "quantity": {
+                                                        "description": "Quantity of the item in the survivor's inventory",
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, invalid parameters provided",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating bad request",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/survivors/show/{survivor}": {
+            "get": {
+                "tags": [
+                    "Survivors"
+                ],
+                "summary": "Get details of a specific survivor",
+                "operationId": "55b41032466cd993ebca7fddfd7b7278",
+                "parameters": [
+                    {
+                        "name": "survivor",
+                        "in": "path",
+                        "description": "ID of the survivor",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Details of the survivor",
+                                    "properties": {
+                                        "id": {
+                                            "description": "ID of the survivor",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "Name of the survivor",
+                                            "type": "string"
+                                        },
+                                        "age": {
+                                            "description": "Age of the survivor",
+                                            "type": "integer"
+                                        },
+                                        "gender_id": {
+                                            "description": "Gender ID of the survivor",
+                                            "type": "integer"
+                                        },
+                                        "latitude": {
+                                            "description": "Latitude of the survivor's location",
+                                            "type": "number",
+                                            "format": "double"
+                                        },
+                                        "longitude": {
+                                            "description": "Longitude of the survivor's location",
+                                            "type": "number",
+                                            "format": "double"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Survivor not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating survivor not found",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/survivors/update/{survivor}": {
+            "post": {
+                "tags": [
+                    "Survivors"
+                ],
+                "summary": "Update the location of a survivor",
+                "operationId": "48354327b9e43d5cdfd3867d5695d5d0",
+                "parameters": [
+                    {
+                        "name": "survivor",
+                        "in": "path",
+                        "description": "ID of the survivor to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "latitude": {
+                                        "description": "Latitude of the survivor's new location",
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "longitude": {
+                                        "description": "Longitude of the survivor's new location",
+                                        "type": "number",
+                                        "format": "double"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message indicating successful update",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, invalid parameters provided",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating bad request",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Trade Items"
+        },
+        {
+            "name": "Report Infection"
+        },
+        {
+            "name": "Reports"
+        },
+        {
+            "name": "Survivors"
+        }
+    ]
+}
