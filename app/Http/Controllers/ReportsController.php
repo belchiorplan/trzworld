@@ -9,6 +9,7 @@ use App\Models\InfectedReported;
 use App\Models\InventoryItem;
 use App\Models\Survivor;
 use App\Models\SurvivorInventory;
+use App\Service\TotalPointsService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,13 @@ use Psy\Util\Json;
  */
 class ReportsController extends BaseController
 {
+    protected $totalPointsCalculatorService;
+
+    public function __construct(TotalPointsService $totalPointsCalculatorService)
+    {
+        $this->totalPointsCalculatorService = $totalPointsCalculatorService;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/reports/percentage-infection",
@@ -200,24 +208,8 @@ class ReportsController extends BaseController
      */
     public function calculateTotalPointsLost(): JsonResponse
     {
-        // Get IDs of infected survivors
-        $infectedSurvivorsIds = Survivor::where('is_infected', true)->pluck('id');
-
-        if ($infectedSurvivorsIds->count() < 1) {
-            $message = "We didn't lose any points.";
-            return $this->sendResponse($message);
-        }
-
-        // Get items owned by infected survivors
-        $survivorItems = SurvivorInventory::whereIn('survivor_id', $infectedSurvivorsIds)->get();
-
-        // Get all items
-        $items = InventoryItem::all();
-
-        // Calculate total points
-        $totalPoints = $survivorItems->map(function ($item) use ($items) {
-            return $items->find($item->item_id)->points * $item->quantity;
-        })->sum();
+        // Calculate total points lost
+        $totalPoints = $this->totalPointsCalculatorService->calculateTotalPointsLost();
 
         $message = "The quantity points lost is: {$totalPoints} points";
 
