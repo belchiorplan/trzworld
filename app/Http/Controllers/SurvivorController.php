@@ -305,6 +305,62 @@ class SurvivorController extends BaseController
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/survivors/inventory/{survivor}",
+     *     summary="Get details inventory of a specific survivor",
+     *     tags={"Survivors"},
+     *     @OA\Parameter(
+     *         name="survivor",
+     *         in="path",
+     *         description="ID of the survivor",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             description="Inventory of the survivor",
+     *             @OA\Property(
+     *                  property="survivor_id",
+     *                  type="integer",
+     *                  description="ID of the survivor"
+     *              ),
+     *             @OA\Property(
+     *                 property="item_id",
+     *                 type="integer",
+     *                 description="Item"
+     *             ),
+     *             @OA\Property(
+     *                 property="quantity",
+     *                 type="string",
+     *                 description="Quantity of the item"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Survivor not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Error message indicating survivor not found"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function inventory(Survivor $survivor): Collection
+    {
+        return SurvivorInventory::where('survivor_id', $survivor->id)->get();
+    }
+
+    /**
      * @OA\Post(
      *     path="/api/survivors/update/{survivor}",
      *     summary="Update the location of a survivor",

@@ -140,6 +140,54 @@
                 }
             }
         },
+        "/api/genders/all": {
+            "get": {
+                "tags": [
+                    "Gender Survivor"
+                ],
+                "summary": "Display a listing of the genders",
+                "operationId": "1143d0be65dabbc4ae0a33e7988d947d",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Details of the gender",
+                                    "properties": {
+                                        "id": {
+                                            "description": "ID of the gender",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "Name of the gender",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/inventory-items/all": {
             "get": {
                 "tags": [
@@ -708,6 +756,69 @@
                 }
             }
         },
+        "/api/survivors/inventory/{survivor}": {
+            "get": {
+                "tags": [
+                    "Survivors"
+                ],
+                "summary": "Get details inventory of a specific survivor",
+                "operationId": "7017356c1b2f2dfe1bb8552b51fe4cbb",
+                "parameters": [
+                    {
+                        "name": "survivor",
+                        "in": "path",
+                        "description": "ID of the survivor",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Inventory of the survivor",
+                                    "properties": {
+                                        "survivor_id": {
+                                            "description": "ID of the survivor",
+                                            "type": "integer"
+                                        },
+                                        "item_id": {
+                                            "description": "Item",
+                                            "type": "integer"
+                                        },
+                                        "quantity": {
+                                            "description": "Quantity of the item",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Survivor not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating survivor not found",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/survivors/update/{survivor}": {
             "post": {
                 "tags": [
@@ -804,6 +915,9 @@
     "tags": [
         {
             "name": "Trade Items"
+        },
+        {
+            "name": "Gender Survivor"
         },
         {
             "name": "Inventory Items"
