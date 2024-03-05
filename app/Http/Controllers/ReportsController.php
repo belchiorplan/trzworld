@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReportsRequest;
 use App\Http\Requests\StoreSurvivorRequest;
 use App\Http\Requests\UpdateSurvivorRequest;
 use App\Models\InfectedReported;
@@ -22,19 +23,27 @@ class ReportsController extends BaseController
 {
     /**
      * @OA\Get(
-     *     path="/api/reports/percentage-infected",
-     *     summary="Display the percentage of not infected survivors",
+     *     path="/api/reports/percentage-infection",
+     *     summary="Display the percentage infected or not infected survivors",
      *     tags={"Reports"},
+     *     @OA\Parameter(
+     *         name="infected_or_not",
+     *         in="query",
+     *         required=true,
+     *         description="Whether to calculate percentage for infected or not infected survivors. Accepted values: 'true' or 'false'.",
+     *         @OA\Schema(
+     *             type="boolean"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
-     *                 property="percentage",
-     *                 type="number",
-     *                 format="double",
-     *                 description="Percentage of not infected survivors"
+     *                 property="message",
+     *                 type="string",
+     *                 description="Message indicating the percentage of infected or not infected survivors."
      *             )
      *         )
      *     ),
@@ -52,54 +61,34 @@ class ReportsController extends BaseController
      *     )
      * )
      *
-     * Display the percentage of not infected
+     * Display the percentage of infected or not infected survivors
      *
+     * @param StoreReportsRequest $request
      * @return JsonResponse
      */
-    public function percentageInfected(): JsonResponse
+    public function percentageInfectedOrNotInfected(StoreReportsRequest $request): JsonResponse
     {
-        return $this->calculatePercentage(true);
-    }
+        $valueReceived = $request->input('infected_or_not');
+        $type = filter_var($valueReceived, FILTER_VALIDATE_BOOLEAN);
 
-    /**
-     * @OA\Get(
-     *     path="/api/reports/percentage-not-infected",
-     *     summary="Display the percentage of not infected survivors",
-     *     tags={"Reports"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(
-     *                 property="percentage",
-     *                 type="number",
-     *                 format="double",
-     *                 description="Percentage of not infected survivors"
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal server error",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 description="Error message indicating internal server error"
-     *             )
-     *         )
-     *     )
-     * )
-     *
-     * Display the percentage of not infected
-     *
-     * @return JsonResponse
-     */
-    public function percentageNotInfected(): JsonResponse
-    {
-        return $this->calculatePercentage(false);
+        $survivors = Survivor::all();
+        $count     = $survivors->count();
+        $filter    = $survivors->where('is_infected', $type)->count();
+
+        if ($count > 0) {
+            $percentage = ($filter / $count) * 100;
+            $percentage = number_format($percentage, 2);
+            $status = $type ? "infected" : "not infected";
+
+            $message = "The percentage of {$status} survivors is: {$percentage}%";
+
+            return $this->sendResponse($message);
+        }
+
+        $status = $type ? "infected" : "not infected";
+        $message = "There are no {$status} survivors.";
+
+        return $this->sendResponse($message);
     }
 
     /**
@@ -110,23 +99,7 @@ class ReportsController extends BaseController
      */
     public function calculatePercentage(bool $infected): JsonResponse
     {
-        $survivors = Survivor::all();
-        $count     = $survivors->count();
-        $filter    = $survivors->where('is_infected', $infected)->count();
 
-        if ($count > 0) {
-            $percentage = ($filter / $count) * 100;
-            $status = $infected ? "infected" : "not infected";
-
-            $message = "The percentage of {$status} survivors is: {$percentage}%";
-
-            return $this->sendResponse($message);
-        }
-
-        $status = $infected ? "infected" : "not infected";
-        $message = "There are no {$status} survivors.";
-
-        return $this->sendResponse($message);
     }
 
     /**

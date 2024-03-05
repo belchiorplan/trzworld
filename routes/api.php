@@ -21,22 +21,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('inventory-items')->group(function () {
 
-    Route::get('/all', [InventoryItemController::class, 'index']);
+    Route::get('/', [InventoryItemController::class, 'index']);
 });
 
 Route::prefix('genders')->group(function () {
 
-    Route::get('/all', [GenderController::class, 'index']);
+    Route::get('/', [GenderController::class, 'index']);
 });
 
 Route::prefix('survivors')->group(function () {
 
     Route::get('/', [SurvivorController::class, 'index']);
     Route::get('/{survivor}', [SurvivorController::class, 'show']);
-    Route::get('/inventory/{survivor}', [SurvivorController::class, 'inventory']);
+    Route::get('/{survivor}/inventory', [SurvivorController::class, 'inventory']);
 
     Route::post('/', [SurvivorController::class, 'store']);
-    Route::put('/{survivor}', [SurvivorController::class, 'update']);
+    Route::patch('/{survivor}', [SurvivorController::class, 'update']);
 });
 
 Route::prefix('report-infections')->group(function () {
@@ -46,8 +46,7 @@ Route::prefix('report-infections')->group(function () {
 
 Route::prefix('reports')->group(function () {
 
-    Route::get('/percentage-infected', [ReportsController::class, 'percentageInfected']);
-    Route::get('/percentage-not-infected', [ReportsController::class, 'percentageNotInfected']);
+    Route::get('/percentage-infection', [ReportsController::class, 'percentageInfectedOrNotInfected']);
     Route::get('/average-items', [ReportsController::class, 'calculateAverageItemsQuantity']);
     Route::get('/total-points-lost', [ReportsController::class, 'calculateTotalPointsLost']);
 });

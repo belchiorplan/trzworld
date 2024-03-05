@@ -18,13 +18,13 @@ class ReportsTest extends TestCase
 
     public function testReportsPercentageInfectionSuccessfully()
     {
-        $response = $this->getJson('/api/reports/percentage-infected');
+        $response = $this->getJson('/api/reports/percentage-infection?infected_or_not=' . urlencode('true'));
         $response->assertStatus(200);
     }
 
     public function testReportsPercentageNotInfectionSuccessfully()
     {
-        $response = $this->getJson('/api/reports/percentage-not-infected');
+        $response = $this->getJson('/api/reports/percentage-infection?infected_or_not=' . urlencode('false'));
         $response->assertStatus(200);
     }
 
@@ -36,7 +36,7 @@ class ReportsTest extends TestCase
 
     public function testReportsTotalPointsLostSuccessfully()
     {
-        $response = $this->getJson('/api/reports/total-poinsts-lost');
+        $response = $this->getJson('/api/reports/total-points-lost');
         $response->assertStatus(200);
     }
 }

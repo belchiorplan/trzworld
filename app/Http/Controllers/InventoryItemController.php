@@ -21,7 +21,7 @@ class InventoryItemController extends BaseController
 {
     /**
      * @OA\Get(
-     *     path="/api/inventory-items/all",
+     *     path="/api/inventory-items/",
      *     summary="Display a listing of the items",
      *     tags={"Inventory Items"},
      *     @OA\Response(

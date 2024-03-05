@@ -140,13 +140,13 @@
                 }
             }
         },
-        "/api/genders/all": {
+        "/api/genders/": {
             "get": {
                 "tags": [
                     "Gender Survivor"
                 ],
                 "summary": "Display a listing of the genders",
-                "operationId": "1143d0be65dabbc4ae0a33e7988d947d",
+                "operationId": "6e1ed4915e1c8c696c2b6c6177d8dc63",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -188,13 +188,13 @@
                 }
             }
         },
-        "/api/inventory-items/all": {
+        "/api/inventory-items/": {
             "get": {
                 "tags": [
                     "Inventory Items"
                 ],
                 "summary": "Display a listing of the items",
-                "operationId": "c98e8a1daac897eace1cd6bacbe824a7",
+                "operationId": "993a51814fb809c13ad3e64912fa3632",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -307,68 +307,34 @@
                 }
             }
         },
-        "/api/reports/percentage-infected": {
+        "/api/reports/percentage-infection": {
             "get": {
                 "tags": [
                     "Reports"
                 ],
-                "summary": "Display the percentage of not infected survivors",
-                "operationId": "8ea2f45f3b799007c1ad273562c6a2d0",
+                "summary": "Display the percentage infected or not infected survivors",
+                "operationId": "6f88799c2ce7a81a98c7eac72a00abbb",
+                "parameters": [
+                    {
+                        "name": "infected_or_not",
+                        "in": "query",
+                        "description": "Whether to calculate percentage for infected or not infected survivors. Accepted values: 'true' or 'false'.",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "percentage": {
-                                            "description": "Percentage of not infected survivors",
-                                            "type": "number",
-                                            "format": "double"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "Error message indicating internal server error",
+                                            "description": "Message indicating the percentage of infected or not infected survivors.",
                                             "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/reports/percentage-not-infected": {
-            "get": {
-                "tags": [
-                    "Reports"
-                ],
-                "summary": "Display the percentage of not infected survivors",
-                "operationId": "0ae27d9d714c9a659a15b647619ed162",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "percentage": {
-                                            "description": "Percentage of not infected survivors",
-                                            "type": "number",
-                                            "format": "double"
                                         }
                                     },
                                     "type": "object"
@@ -753,12 +719,12 @@
                     }
                 }
             },
-            "put": {
+            "patch": {
                 "tags": [
                     "Survivors"
                 ],
                 "summary": "Update the location of a survivor",
-                "operationId": "9e63f7ebd96e95ce297f3f37cdb2b60f",
+                "operationId": "57e875a5024e482bcb4626793ad3c54f",
                 "parameters": [
                     {
                         "name": "survivor",
@@ -844,13 +810,13 @@
                 }
             }
         },
-        "/api/survivors/inventory/{survivor}": {
+        "/api/survivors/{survivor}/inventory": {
             "get": {
                 "tags": [
                     "Survivors"
                 ],
                 "summary": "Get details inventory of a specific survivor",
-                "operationId": "7017356c1b2f2dfe1bb8552b51fe4cbb",
+                "operationId": "fbeb1f607828fb139a245e13c1ab0ca3",
                 "parameters": [
                     {
                         "name": "survivor",

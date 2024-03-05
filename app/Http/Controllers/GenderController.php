@@ -22,7 +22,7 @@ class GenderController extends BaseController
 {
     /**
      * @OA\Get(
-     *     path="/api/genders/all",
+     *     path="/api/genders/",
      *     summary="Display a listing of the genders",
      *     tags={"Gender Survivor"},
      *     @OA\Response(

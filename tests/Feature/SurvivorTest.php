@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\SurvivorController;
 use App\Models\InventoryItem;
 use App\Models\Survivor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class SurvivorTest extends TestCase
@@ -44,7 +46,7 @@ class SurvivorTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson('/api/survivors/store', $survivorData);
+        $response = $this->postJson('/api/survivors/', $survivorData);
 
         $response->assertStatus(200); // Check for successful creation (200 Created)
         $response->assertJson(['data' => $survivorData]);
@@ -62,7 +64,7 @@ class SurvivorTest extends TestCase
             'inventory' => [],
         ];
 
-        $response = $this->postJson('/api/survivors/store', $invalidData);
+        $response = $this->postJson('/api/survivors/', $invalidData);
 
         $response->assertStatus(422);
     }
@@ -93,7 +95,7 @@ class SurvivorTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson('/api/survivors/store', $invalidData);
+        $response = $this->postJson('/api/survivors/', $invalidData);
 
         $response->assertStatus(422);
     }
@@ -110,7 +112,7 @@ class SurvivorTest extends TestCase
             'inventory' => []
         ];
 
-        $response = $this->postJson('/api/survivors/store', $invalidData);
+        $response = $this->postJson('/api/survivors/', $invalidData);
 
         $response->assertStatus(422);
     }
@@ -136,7 +138,7 @@ class SurvivorTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson('/api/survivors/store', $invalidData);
+        $response = $this->postJson('/api/survivors/', $invalidData);
 
         $response->assertStatus(422);
     }
@@ -162,7 +164,7 @@ class SurvivorTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson('/api/survivors/store', $invalidData);
+        $response = $this->postJson('/api/survivors/', $invalidData);
 
         $response->assertStatus(422);
     }
@@ -179,7 +181,7 @@ class SurvivorTest extends TestCase
             'inventory' => [],
         ];
 
-        $response = $this->postJson('/api/survivors/store', $invalidData);
+        $response = $this->postJson('/api/survivors/', $invalidData);
 
         $response->assertStatus(422);
     }
@@ -196,7 +198,7 @@ class SurvivorTest extends TestCase
             'inventory' => [],
         ];
 
-        $response = $this->postJson('/api/survivors/store', $invalidData);
+        $response = $this->postJson('/api/survivors/', $invalidData);
 
         $response->assertStatus(422);
     }
@@ -210,7 +212,7 @@ class SurvivorTest extends TestCase
             'longitude' => fake()->longitude,
         ];
 
-        $response = $this->postJson('/api/survivors/update/' . $survivors[array_rand($survivors->toArray())], $survivorData);
+        $response = $this->putJson('/api/survivors/' . $survivors[array_rand($survivors->toArray())], $survivorData);
 
         $response->assertStatus(200);
     }
@@ -237,7 +239,7 @@ class SurvivorTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson('/api/survivors/update/' . $survivors[array_rand($survivors->toArray())], $invalidData);
+        $response = $this->putJson('/api/survivors/' . $survivors[array_rand($survivors->toArray())], $invalidData);
 
         $response->assertStatus(200);
     }
@@ -249,8 +251,25 @@ class SurvivorTest extends TestCase
             'longitude' => fake()->longitude,
         ];
 
-        $response = $this->postJson('/api/survivors/update/' . fake()->numberBetween(1, 10), $invalidData);
+        $response = $this->putJson('/api/survivors/' . fake()->numberBetween(1, 10), $invalidData);
 
         $response->assertStatus(422);
+    }
+
+    public function testInventoryReturnsSurvivorItems()
+    {
+        // Create a survivor with some items
+        $survivorId = Survivor::where('is_infected', false)->first()->id;
+
+        $response = $this->getJson("/api/survivors/{$survivorId}/inventory");
+        $response->assertStatus(200);
+    }
+
+    public function testInventoryReturnsEmptyCollectionForNonExistentSurvivor()
+    {
+        $survivorId = Survivor::max('id') + 1;
+
+        $response = $this->getJson("/api/survivors/{$survivorId}/inventory");
+        $response->assertStatus(404);
     }
 }

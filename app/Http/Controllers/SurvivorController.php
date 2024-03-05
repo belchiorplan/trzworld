@@ -306,7 +306,7 @@ class SurvivorController extends BaseController
 
     /**
      * @OA\Get(
-     *     path="/api/survivors/inventory/{survivor}",
+     *     path="/api/survivors/{survivor}/inventory",
      *     summary="Get details inventory of a specific survivor",
      *     tags={"Survivors"},
      *     @OA\Parameter(
@@ -361,7 +361,7 @@ class SurvivorController extends BaseController
     }
 
     /**
-     * @OA\Put(
+     * @OA\Patch(
      *     path="/api/survivors/{survivor}",
      *     summary="Update the location of a survivor",
      *     tags={"Survivors"},
