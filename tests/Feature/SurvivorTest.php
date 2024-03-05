@@ -212,7 +212,7 @@ class SurvivorTest extends TestCase
             'longitude' => fake()->longitude,
         ];
 
-        $response = $this->putJson('/api/survivors/' . $survivors[array_rand($survivors->toArray())], $survivorData);
+        $response = $this->patchJson('/api/survivors/' . $survivors[array_rand($survivors->toArray())], $survivorData);
 
         $response->assertStatus(200);
     }
@@ -239,7 +239,7 @@ class SurvivorTest extends TestCase
             ],
         ];
 
-        $response = $this->putJson('/api/survivors/' . $survivors[array_rand($survivors->toArray())], $invalidData);
+        $response = $this->patchJson('/api/survivors/' . $survivors[array_rand($survivors->toArray())], $invalidData);
 
         $response->assertStatus(200);
     }
@@ -251,7 +251,7 @@ class SurvivorTest extends TestCase
             'longitude' => fake()->longitude,
         ];
 
-        $response = $this->putJson('/api/survivors/' . fake()->numberBetween(1, 10), $invalidData);
+        $response = $this->patchJson('/api/survivors/' . fake()->numberBetween(1, 10), $invalidData);
 
         $response->assertStatus(422);
     }
