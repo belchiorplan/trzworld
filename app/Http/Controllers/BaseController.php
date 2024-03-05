@@ -10,6 +10,23 @@ class BaseController extends Controller
     /**
      * Return a json response of successful
      *
+     * @param  array  $data
+     * @param  int  $code
+     * @return JsonResponse
+     */
+    protected function sendData(array $data = [], int $code = Response::HTTP_OK): JsonResponse
+    {
+        $response = [
+            'success' => true,
+            'data'    => $data,
+        ];
+
+        return response()->json($response, $code);
+    }
+
+    /**
+     * Return a json response of successful
+     *
      * @param  string  $message
      * @param  int  $code
      * @return JsonResponse
@@ -21,10 +38,6 @@ class BaseController extends Controller
             'message' => $message,
         ];
 
-        if (!is_null($message)) {
-            $response['message'] = $message;
-        }
-
         return response()->json($response, $code);
     }
 
@@ -35,7 +48,7 @@ class BaseController extends Controller
      * @param  int  $code
      * @return JsonResponse
      */
-    protected function sendError(string $message, int $code = Response::HTTP_BAD_REQUEST): JsonResponse
+    protected function sendError(string $message, int $code = Response::HTTP_UNPROCESSABLE_ENTITY): JsonResponse
     {
         $response = [
             'success' => false,

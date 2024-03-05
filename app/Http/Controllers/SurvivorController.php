@@ -36,10 +36,10 @@ class SurvivorController extends BaseController
             DB::beginTransaction();
 
             $survivor = Survivor::create([
-                'name' => $request->input('name'),
-                'age' => $request->input('age'),
+                'name'      => $request->input('name'),
+                'age'       => $request->input('age'),
                 'gender_id' => $request->input('gender_id'),
-                'latitude' => $request->input('latitude'),
+                'latitude'  => $request->input('latitude'),
                 'longitude' => $request->input('longitude'),
             ]);
 
@@ -54,14 +54,18 @@ class SurvivorController extends BaseController
                     ]);
                 }
 
+                $data = $survivor->toArray();
+
+                $data['inventory'] = $request->input('inventory');
+
                 DB::commit();
 
-                $message = "Hello {$survivor->name}, you have been registered. Your code is {$survivor->id}.";
-
-                return $this->sendResponse($message);
+                return $this->sendData($data);
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            $message = $e->getMessage();
+            return $this->sendError($message);
         }
 
         $message = "Hello, an error occurred when trying to register the survivor.";
