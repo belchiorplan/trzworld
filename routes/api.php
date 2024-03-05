@@ -31,12 +31,12 @@ Route::prefix('genders')->group(function () {
 
 Route::prefix('survivors')->group(function () {
 
-    Route::get('/all', [SurvivorController::class, 'index']);
-    Route::get('/show/{survivor}', [SurvivorController::class, 'show']);
+    Route::get('/', [SurvivorController::class, 'index']);
+    Route::get('/{survivor}', [SurvivorController::class, 'show']);
     Route::get('/inventory/{survivor}', [SurvivorController::class, 'inventory']);
 
-    Route::post('/store', [SurvivorController::class, 'store']);
-    Route::post('/update/{survivor}', [SurvivorController::class, 'update']);
+    Route::post('/', [SurvivorController::class, 'store']);
+    Route::put('/{survivor}', [SurvivorController::class, 'update']);
 });
 
 Route::prefix('report-infections')->group(function () {

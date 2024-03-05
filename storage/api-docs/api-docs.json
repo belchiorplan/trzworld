@@ -502,28 +502,26 @@
                 }
             }
         },
-        "/api/survivors/all": {
+        "/api/survivors/": {
             "get": {
                 "tags": [
                     "Survivors"
                 ],
                 "summary": "List survivors",
                 "description": "List all registered survivors",
-                "operationId": "710b2aeb9f7bee505b6035f396d19488",
+                "operationId": "f35cee7f3749469b64dac3f9d1be1fbe",
                 "responses": {
                     "200": {
                         "description": "OK"
                     }
                 }
-            }
-        },
-        "/api/survivors/store": {
+            },
             "post": {
                 "tags": [
                     "Survivors"
                 ],
                 "summary": "Create a new survivor",
-                "operationId": "ecd9bb97de2fe457ef7feb7ce3273fca",
+                "operationId": "2831da8d353b505f2ca458bc41ec0057",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -679,13 +677,13 @@
                 }
             }
         },
-        "/api/survivors/show/{survivor}": {
+        "/api/survivors/{survivor}": {
             "get": {
                 "tags": [
                     "Survivors"
                 ],
                 "summary": "Get details of a specific survivor",
-                "operationId": "55b41032466cd993ebca7fddfd7b7278",
+                "operationId": "8fa360307a609755cbb3a4d36cf88122",
                 "parameters": [
                     {
                         "name": "survivor",
@@ -754,78 +752,13 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/survivors/inventory/{survivor}": {
-            "get": {
-                "tags": [
-                    "Survivors"
-                ],
-                "summary": "Get details inventory of a specific survivor",
-                "operationId": "7017356c1b2f2dfe1bb8552b51fe4cbb",
-                "parameters": [
-                    {
-                        "name": "survivor",
-                        "in": "path",
-                        "description": "ID of the survivor",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "description": "Inventory of the survivor",
-                                    "properties": {
-                                        "survivor_id": {
-                                            "description": "ID of the survivor",
-                                            "type": "integer"
-                                        },
-                                        "item_id": {
-                                            "description": "Item",
-                                            "type": "integer"
-                                        },
-                                        "quantity": {
-                                            "description": "Quantity of the item",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Survivor not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "Error message indicating survivor not found",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/survivors/update/{survivor}": {
-            "post": {
+            },
+            "put": {
                 "tags": [
                     "Survivors"
                 ],
                 "summary": "Update the location of a survivor",
-                "operationId": "48354327b9e43d5cdfd3867d5695d5d0",
+                "operationId": "9e63f7ebd96e95ce297f3f37cdb2b60f",
                 "parameters": [
                     {
                         "name": "survivor",
@@ -900,6 +833,69 @@
                                     "properties": {
                                         "message": {
                                             "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/survivors/inventory/{survivor}": {
+            "get": {
+                "tags": [
+                    "Survivors"
+                ],
+                "summary": "Get details inventory of a specific survivor",
+                "operationId": "7017356c1b2f2dfe1bb8552b51fe4cbb",
+                "parameters": [
+                    {
+                        "name": "survivor",
+                        "in": "path",
+                        "description": "ID of the survivor",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Inventory of the survivor",
+                                    "properties": {
+                                        "survivor_id": {
+                                            "description": "ID of the survivor",
+                                            "type": "integer"
+                                        },
+                                        "item_id": {
+                                            "description": "Item",
+                                            "type": "integer"
+                                        },
+                                        "quantity": {
+                                            "description": "Quantity of the item",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Survivor not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating survivor not found",
                                             "type": "string"
                                         }
                                     },

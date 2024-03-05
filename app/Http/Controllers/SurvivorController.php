@@ -21,7 +21,7 @@ class SurvivorController extends BaseController
 
     /**
      * @OA\Get(
-     *     path="/api/survivors/all",
+     *     path="/api/survivors/",
      *     summary="List survivors",
      *     description="List all registered survivors",
      *     tags={"Survivors"},
@@ -45,7 +45,7 @@ class SurvivorController extends BaseController
 
     /**
      * @OA\Post(
-     *     path="/api/survivors/store",
+     *     path="/api/survivors/",
      *     summary="Create a new survivor",
      *     tags={"Survivors"},
      *     @OA\RequestBody(
@@ -233,7 +233,7 @@ class SurvivorController extends BaseController
 
     /**
      * @OA\Get(
-     *     path="/api/survivors/show/{survivor}",
+     *     path="/api/survivors/{survivor}",
      *     summary="Get details of a specific survivor",
      *     tags={"Survivors"},
      *     @OA\Parameter(
@@ -361,8 +361,8 @@ class SurvivorController extends BaseController
     }
 
     /**
-     * @OA\Post(
-     *     path="/api/survivors/update/{survivor}",
+     * @OA\Put(
+     *     path="/api/survivors/{survivor}",
      *     summary="Update the location of a survivor",
      *     tags={"Survivors"},
      *     @OA\Parameter(
