@@ -8,6 +8,7 @@ use App\Models\Survivor;
 use App\Models\SurvivorInventory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use OpenApi\Annotations as OA;
 use function Laravel\Prompts\select;
 
 /**
@@ -95,7 +96,7 @@ class ExchangeController extends BaseController
      *         )
      *     ),
      *     @OA\Response(
-     *         response=400,
+     *         response=422,
      *         description="Bad request, invalid parameters provided",
      *         @OA\JsonContent(
      *             type="object",

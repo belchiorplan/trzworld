@@ -12,6 +12,7 @@ use App\Models\SurvivorInventory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use OpenApi\Annotations as OA;
 use Psy\Util\Json;
 
 /**
@@ -89,17 +90,6 @@ class ReportsController extends BaseController
         $message = "There are no {$status} survivors.";
 
         return $this->sendResponse($message);
-    }
-
-    /**
-     * Calculate percentage of survivors are and not infected
-     *
-     * @param  bool $infected
-     * @return JsonResponse
-     */
-    public function calculatePercentage(bool $infected): JsonResponse
-    {
-
     }
 
     /**
@@ -226,8 +216,7 @@ class ReportsController extends BaseController
 
         // Calculate total points
         $totalPoints = $survivorItems->map(function ($item) use ($items) {
-            $point = $items->find($item->item_id)->points * $item->quantity;
-            return $point;
+            return $items->find($item->item_id)->points * $item->quantity;
         })->sum();
 
         $message = "The quantity points lost is: {$totalPoints} points";

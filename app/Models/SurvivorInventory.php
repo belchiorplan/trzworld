@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class SurvivorInventory extends Model
 {
-    use HasFactory;
 
     protected $fillable = ['survivor_id', 'item_id', 'quantity'];
 

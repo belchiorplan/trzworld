@@ -105,7 +105,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "422": {
                         "description": "Bad request, invalid parameters provided",
                         "content": {
                             "application/json": {
@@ -212,7 +212,7 @@
                                             "type": "string"
                                         },
                                         "points": {
-                                            "description": "Poinst of the item",
+                                            "description": "Points of the item",
                                             "type": "integer"
                                         }
                                     },

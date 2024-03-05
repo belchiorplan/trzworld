@@ -11,6 +11,7 @@ use App\Models\Survivor;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Tag(
@@ -43,7 +44,7 @@ class InventoryItemController extends BaseController
      *              @OA\Property(
      *                  property="points",
      *                  type="integer",
-     *                  description="Poinst of the item"
+     *                  description="Points of the item"
      *              )
      *          )
      *      ),
