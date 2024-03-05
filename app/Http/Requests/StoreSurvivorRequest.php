@@ -27,7 +27,7 @@ class StoreSurvivorRequest extends FormRequest
             'gender_id'            => 'required|integer|exists:genders,id',
             'latitude'             => 'required|numeric',
             'longitude'            => 'required|numeric',
-            'inventory'            => 'required|array',
+            'inventory'            => 'required|array|min:1',
             'inventory.*.item'     => 'required|integer|exists:inventory_items,id',
             'inventory.*.quantity' => 'required|integer',
         ];

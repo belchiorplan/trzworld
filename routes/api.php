@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('survivor')->group(function () {
+Route::prefix('survivors')->group(function () {
 
     Route::get('/all', [SurvivorController::class, 'index']);
     Route::get('/show/{survivor}', [SurvivorController::class, 'show']);
@@ -32,7 +32,7 @@ Route::prefix('items')->group(function () {
     Route::get('/all', [InventoryItemController::class, 'index']);
 });
 
-Route::prefix('report-infection')->group(function () {
+Route::prefix('report-infections')->group(function () {
 
     Route::post('/report', [ReportInfectionController::class, 'reportInfection']);
 });
@@ -45,7 +45,7 @@ Route::prefix('reports')->group(function () {
     Route::get('/total-poinsts-lost', [ReportsController::class, 'calculateTotalPointsLost']);
 });
 
-Route::prefix('exchange')->group(function () {
+Route::prefix('exchanges')->group(function () {
 
     Route::post('/trade', [ExchangeController::class, 'execTrade']);
 });

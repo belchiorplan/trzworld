@@ -19,11 +19,12 @@ class SurvivorFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'      => fake()->unique()->name(),
-            'age'       => fake()->numberBetween(18,80),
-            'gender_id' => fake()->numberBetween(1,2),
-            'latitude'  => fake()->latitude,
-            'longitude' => fake()->longitude,
+            'name'        => fake()->unique()->name(),
+            'age'         => fake()->numberBetween(18,80),
+            'gender_id'   => fake()->numberBetween(1,2),
+            'latitude'    => fake()->latitude,
+            'longitude'   => fake()->longitude,
+            'is_infected' => fake()->boolean,
         ];
     }
 }
