@@ -140,6 +140,58 @@
                 }
             }
         },
+        "/api/inventory-items/all": {
+            "get": {
+                "tags": [
+                    "Inventory Items"
+                ],
+                "summary": "Display a listing of the items",
+                "operationId": "c98e8a1daac897eace1cd6bacbe824a7",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Details of the item",
+                                    "properties": {
+                                        "id": {
+                                            "description": "ID of the item",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "Name of the item",
+                                            "type": "string"
+                                        },
+                                        "points": {
+                                            "description": "Poinst of the item",
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message indicating internal server error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/report-infections/report": {
             "post": {
                 "tags": [
@@ -752,6 +804,9 @@
     "tags": [
         {
             "name": "Trade Items"
+        },
+        {
+            "name": "Inventory Items"
         },
         {
             "name": "Report Infection"

@@ -27,7 +27,7 @@ Route::prefix('survivors')->group(function () {
     Route::post('/update/{survivor}', [SurvivorController::class, 'update']);
 });
 
-Route::prefix('items')->group(function () {
+Route::prefix('inventory-items')->group(function () {
 
     Route::get('/all', [InventoryItemController::class, 'index']);
 });
