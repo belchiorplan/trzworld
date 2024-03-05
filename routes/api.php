@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\InventoryItemController;
 use App\Http\Controllers\ReportInfectionController;
 use App\Http\Controllers\ReportsController;
@@ -42,4 +43,9 @@ Route::prefix('reports')->group(function () {
     Route::get('/percentage-not-infected', [ReportsController::class, 'percentageNotInfected']);
     Route::get('/average-items', [ReportsController::class, 'calculateAverageItemsQuantity']);
     Route::get('/total-poinsts-lost', [ReportsController::class, 'calculateTotalPointsLost']);
+});
+
+Route::prefix('exchange')->group(function () {
+
+    Route::post('/trade', [ExchangeController::class, 'execTrade']);
 });
