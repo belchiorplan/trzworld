@@ -30,13 +30,13 @@ class ExchangeService
         foreach ($itemsToTransfer as $item) {
             // Remove items from source survivor
             SurvivorInventory::where('survivor_id', $sourceSurvivorId)
-                ->where('item_id', $item['item'])
-                ->decrement('quantity', $item['quantity']);
+                                ->where('item_id', $item['item'])
+                                ->decrement('quantity', $item['quantity']);
 
             // Add items to destination survivor
             $destinationInventoryItem = SurvivorInventory::where('survivor_id', $destinationSurvivorId)
-                ->where('item_id', $item['item'])
-                ->first();
+                                                        ->where('item_id', $item['item'])
+                                                        ->first();
 
             if ($destinationInventoryItem) {
                 $destinationInventoryItem->increment('quantity', $item['quantity']);
