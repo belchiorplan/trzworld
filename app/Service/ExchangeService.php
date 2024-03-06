@@ -53,16 +53,14 @@ class ExchangeService
     /**
      * Block trade AK47
      *
-     * @param  int  $survivorId
+     * @param  array  $inventarySurvivor
      * @return bool
      */
-    public function blockTradeAK(int $survivorId): bool
+    public function blockTradeAK(array $inventarySurvivor): bool
     {
-        $inventarySurvivor = SurvivorInventory::where('survivor_id', $survivorId)->get();
-
         $sumTotalInventary = 0;
         foreach ($inventarySurvivor as $item) {
-            if ($item->item_id != self::AK47_ID) {
+            if ($item['item_id'] != self::AK47_ID) {
                 $sumTotalInventary += $item['quantity'];
             }
         }

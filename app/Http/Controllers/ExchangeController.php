@@ -148,13 +148,11 @@ class ExchangeController extends BaseController
             DB::beginTransaction();
 
             // Check if survivor is infected
-            $isInfected = Survivor::whereIn('id', [$request->input('survivor1_id'), $request->input('survivor2_id')])
-                                    ->where('is_infected', true)
-                                    ->first();
+            $isInfectedSurvivor1 = Survivor::find($request->input('survivor1_id'));
+            $isInfectedSurvivor2 = Survivor::find($request->input('survivor2_id'));
 
-            if ($isInfected) {
+            if ($isInfectedSurvivor1->is_infected || $isInfectedSurvivor2->is_infected) {
                 $message = "Do you cannot trade items with survived infected.";
-
                 return $this->sendError($message);
             }
 
@@ -164,6 +162,8 @@ class ExchangeController extends BaseController
 
             // Check if total points are equal for both survivors
             if ($totalPointsSurvivor1 !== $totalPointsSurvivor2) {
+                DB::rollBack();
+
                 $message = "Total points of items to be traded must be equal for both survivors.";
 
                 return $this->sendError($message);
@@ -185,9 +185,12 @@ class ExchangeController extends BaseController
                 $request->input('items_to_trade_s2')
             );
 
+            $inventarySurvivor1 = SurvivorInventory::where('survivor_id', $request->input('survivor1_id'))->get();
+            $inventarySurvivor2 = SurvivorInventory::where('survivor_id', $request->input('survivor2_id'))->get();
+
             // Validates if the survivor is exchanging all their items for AK47
-            $blockTradeAkS1 = $this->tradeService->blockTradeAK($request->input('survivor1_id'));
-            $blockTradeAkS2 = $this->tradeService->blockTradeAK($request->input('survivor2_id'));
+            $blockTradeAkS1 = $this->tradeService->blockTradeAK($inventarySurvivor1->toArray());
+            $blockTradeAkS2 = $this->tradeService->blockTradeAK($inventarySurvivor2->toArray());
 
             if ($blockTradeAkS1 || $blockTradeAkS2) {
                 DB::rollBack();
@@ -196,7 +199,7 @@ class ExchangeController extends BaseController
                 return $this->sendError($message);
             }
 
-            DB::commit();
+            DB::rollBack();
 
             $message = "Trade completed successfully.";
 

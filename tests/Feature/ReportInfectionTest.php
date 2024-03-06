@@ -19,7 +19,7 @@ class ReportInfectionTest extends TestCase
 
     public function testStoreReportInfectionSuccessfully()
     {
-        $survivors = Survivor::all()->pluck('id');
+        $survivors = Survivor::where('is_infected', false)->pluck('id');
 
         $reportData = [
             'infected_survivor_id'  => $survivors[array_rand($survivors->toArray())],
