@@ -45,6 +45,12 @@ Run migrations and seed:
 docker exec -it trzworld_php php artisan migrate --seed
 ```
 
+Optionally, you can run test with command below:
+
+```bash
+docker exec -it trzworld_php php artisan test
+```
+
 Now, you can access the API.
 
 For see to API routes see [this page](http://localhost/api/documentation).
