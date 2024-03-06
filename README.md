@@ -1,22 +1,15 @@
-# Docker
-Basic settings for development with docker
+## TRZWorld
 
-## Technologies
+### Technologies
 The following technologies are being used to make this project work.
 
-- *PHP* - version 8.1
-- *MySQL (or MariaDB)* - Allways latest version
-- *NGINX* - Allways latest version stable
+- *PHP* - version 8.3.3
+- *MySQL (or MariaDB)* - Always latest version
+- *NGINX* - Always latest version stable
 
-## Setup
+### Setup
 
 You can install Docker following the instructions on the link [get Docker](https://docs.docker.com/engine/install/).
-
-Clone this repository for into your project with command below
-
-```bash
-https://github.com/carlosbelchior/docker.git
-```
 
 ### Run it locally
 The sections below describe how to set up the development environment.
@@ -28,24 +21,30 @@ To startup the application you can run the command shown below.
 docker-compose up --build -d
 ```
 
-Docker command to access the php service:
+Install dependencies:
 
 ```bash
-docker-compose exec php /bin/bash
+docker exec -it trzworld_php composer install
 ```
 
-It will start the application using some docker containers (nginx, mysql and PHP).
+Copy .env.example:
 
-#### Settings files
-
-NOTE: The default credentials for database are:
-- host: mysql
-- database: default
-- user: root
-- password: admin
-
-### Access your application:
-
-```json
-localhost:8080
+```bash
+cp .env.example .env
 ```
+
+Generate Laravel key:
+
+```bash
+docker exec -it trzworld_php php artisan key:generate
+```
+
+Run migrations and seed:
+
+```bash
+docker exec -it trzworld_php php artisan migrate --seed
+```
+
+Now, you can access the API.
+
+For see to API routes see [this page](http://localhost/api/documentation).
